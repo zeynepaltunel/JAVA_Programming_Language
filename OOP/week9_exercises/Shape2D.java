@@ -1,7 +1,7 @@
 package week9_exercises;
 
 public abstract class Shape2D {
-    public final double PI = 3.14;
+    public static final double PI = 3.14;
     public double height;
     public double width;
     public double radius;
@@ -13,16 +13,18 @@ public abstract class Shape2D {
     }
 
     // constructor 2
-    public Shape2D(double radius){
+    public Shape2D(double width,double height,  double radius){
+        this(width, height);
         this.radius=radius;
     }
 
-    // constructor 3
-    public Shape2D(){
-    }
 
     public abstract double computeArea();
-    public abstract String toString();
+
+    @Override
+    public String toString(){
+        return "Area: " + computeArea();
+    }
  
 }
 
@@ -30,19 +32,22 @@ abstract class Shape3D extends Shape2D{
     public double depth;
 
     // constructor 1
-    public Shape3D(Double width, double height,double depth){
+    public Shape3D(double width, double height,double depth){
         super(width,height);
         this.depth=depth;
     }
 
     public  Shape3D(double height,double radius){
-        super(radius);
+        super(0,height, radius);
     }
-    @Override
-    public double computeArea(){
-        return width*height*depth;
-    }
+
     public abstract double computeVolume();
+
+    
+    @Override
+    public String toString(){
+        return "Area: " + computeArea() + " " + "Volume: " + computeVolume();
+    }
 }
 
 class Rectangle extends Shape2D{
@@ -56,16 +61,13 @@ class Rectangle extends Shape2D{
         return width*height;
     }
 
-    @Override
-    public String toString(){
-        return "Area: " + computeArea();
-    }
+
 }  
 
 class Square extends Shape2D{
     
     public Square(double width){
-        super(width, width);
+        super(width, 0);
     }
 
     @Override
@@ -73,16 +75,12 @@ class Square extends Shape2D{
         return width*width;
     }
 
-    @Override
-    public String toString(){
-        return "Area: " + computeArea();
-    }
 }
 
 class Cube extends Shape3D{
 
     public Cube(double width){
-        super(width, width, width);
+        super(width, 0, 0);
     }
     
     @Override
@@ -95,10 +93,6 @@ class Cube extends Shape3D{
         return width*width*width;
     }
 
-    @Override
-    public String toString(){
-        return "Area: " + computeArea() + " " + "Volume: " + computeVolume();
-    }
 }
 
 class Cylinder extends Shape3D{
@@ -109,17 +103,12 @@ class Cylinder extends Shape3D{
 
     @Override
     public double computeArea(){
-        return (2*PI*radius*radius) + (2*PI*radius*height);
+        return (2*Shape2D.PI*radius*radius) + (2*PI*radius*height);
     }
 
     @Override
     public double computeVolume(){
         return PI*radius*radius*height;
-    }
-
-    @Override
-    public String toString(){
-        return "Area: " + computeArea() + " " + "Volume: " + computeVolume(); 
     }
 }
 
@@ -130,22 +119,17 @@ class Main{
         Square s1 = new Square(20);
         Square s2 = new Square(20);
         Cube c1 = new Cube(5);
-        Cube c2 = new Cube(10);
+        Cube c2 = new Cube(10); 
         Cylinder cy1 = new Cylinder(10, 2);
-       // System.out.println(c1.computeVolume());
         Cylinder cy2 = new Cylinder(15, 3);
-        //System.out.println(c1.computeVolume());
 
-       /*compareArea(r1, r2);
+        compareArea(r1, r2);
         compareArea(s1, s2);
         compareArea(c1, c2);
         compareArea(cy1, cy2);
 
         compareVolume(c1, c2);
-        */
         compareVolume(cy1, cy2);
-        System.out.println(cy1.computeVolume());
-        System.out.println(cy2.computeVolume());
 
     }
 
